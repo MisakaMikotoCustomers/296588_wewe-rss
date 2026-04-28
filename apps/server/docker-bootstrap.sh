@@ -1,4 +1,3 @@
-
 #!/bin/sh
 # ai-task-obs: auto-generated
 # ENVIRONEMTN from docker-compose.yaml doesn't get through to subprocesses
