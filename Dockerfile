@@ -3,7 +3,8 @@ FROM node:20.16.0-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN npm i -g pnpm
+# ai-task-obs: pin pnpm to v8 — repo's pnpm-lock.yaml uses lockfileVersion 6.0
+RUN npm i -g pnpm@8
 
 FROM base AS build
 COPY . /usr/src/app
@@ -14,8 +15,9 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 
 # >>> ai-task-obs:apm >>>
-# 安装 APM 依赖（opentelemetry）
-RUN cd /usr/src/app && pnpm add @opentelemetry/sdk-node @opentelemetry/exporter-trace-otlp-grpc @opentelemetry/auto-instrumentations-node @opentelemetry/resources
+# APM (OpenTelemetry) deps intentionally not installed here — pnpm's symlinked
+# node_modules cannot be plain-copied into /app, and main.js wraps the require
+# in try/catch so missing modules degrade to a non-fatal log.
 # <<< ai-task-obs:apm <<<
 
 RUN pnpm deploy --filter=server --prod /app
@@ -32,8 +34,7 @@ FROM base AS app
 COPY --from=build /app /app
 
 # >>> ai-task-obs:apm >>>
-# 复制 APM 依赖到运行时
-COPY --from=build /usr/src/app/node_modules/@opentelemetry /app/node_modules/@opentelemetry
+# APM modules not bundled (see build stage); main.js handles missing deps.
 # <<< ai-task-obs:apm <<<
 
 # >>> ai-task-obs:entry >>>
@@ -66,8 +67,7 @@ FROM base AS app-sqlite
 COPY --from=build /app-sqlite /app
 
 # >>> ai-task-obs:apm >>>
-# 复制 APM 依赖到运行时
-COPY --from=build /usr/src/app/node_modules/@opentelemetry /app/node_modules/@opentelemetry
+# APM modules not bundled (see build stage); main.js handles missing deps.
 # <<< ai-task-obs:apm <<<
 
 # >>> ai-task-obs:entry >>>
