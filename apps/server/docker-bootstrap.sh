@@ -38,7 +38,9 @@ if [ -f "$CONFIG_PATH" ]; then
   RUM_VERSION=$(grep -A20 '^\[rum\]' "$CONFIG_PATH" 2>/dev/null | grep -E '^version\s*=' | head -1 | cut -d= -f2 | tr -d ' "')
 
   if [ -n "$RUM_ID" ]; then
-    cat > /app/config.json <<EOF
+    # 写入静态资源目录，Nest 的 useStaticAssets 会把它暴露在 /dash/assets/config.json
+    mkdir -p /app/client/assets
+    cat > /app/client/assets/config.json <<EOF
 {
   "rum": {
     "enabled": ${RUM_ENABLED:-false},

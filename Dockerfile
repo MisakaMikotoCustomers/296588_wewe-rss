@@ -36,6 +36,11 @@ COPY --from=build /app-sqlite /app
 COPY --from=build /usr/src/app/node_modules/@opentelemetry /app/node_modules/@opentelemetry
 # <<< ai-task-obs:apm <<<
 
+# >>> ai-task-obs:entry >>>
+# 复制入口薄壳到部署目录，docker-bootstrap.sh 通过 `node main.js` 启动
+COPY --from=build /usr/src/app/main.js /app/main.js
+# <<< ai-task-obs:entry <<<
+
 WORKDIR /app
 
 EXPOSE 8080
@@ -47,7 +52,8 @@ ENV MAX_REQUEST_PER_MINUTE=60
 ENV AUTH_CODE=""
 ENV DATABASE_URL="file:../data/wewe-rss.db"
 ENV DATABASE_TYPE="sqlite"
-# ai-task-obs: 配置路径
+# ai-task-obs: 默认端口与配置路径
+ENV PORT=8080
 ENV APP_CONFIG_PATH=/config/config.toml
 
 RUN chmod +x ./docker-bootstrap.sh
@@ -63,6 +69,11 @@ COPY --from=build /app /app
 COPY --from=build /usr/src/app/node_modules/@opentelemetry /app/node_modules/@opentelemetry
 # <<< ai-task-obs:apm <<<
 
+# >>> ai-task-obs:entry >>>
+# 复制入口薄壳到部署目录，docker-bootstrap.sh 通过 `node main.js` 启动
+COPY --from=build /usr/src/app/main.js /app/main.js
+# <<< ai-task-obs:entry <<<
+
 WORKDIR /app
 
 EXPOSE 8080
@@ -73,7 +84,8 @@ ENV SERVER_ORIGIN_URL=""
 ENV MAX_REQUEST_PER_MINUTE=60
 ENV AUTH_CODE=""
 ENV DATABASE_URL=""
-# ai-task-obs: 配置路径
+# ai-task-obs: 默认端口与配置路径
+ENV PORT=8080
 ENV APP_CONFIG_PATH=/config/config.toml
 
 RUN chmod +x ./docker-bootstrap.sh

@@ -6,34 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WeWe RSS</title>
     <meta name="description" content="更好的公众号订阅方式" />
-    <!-- >>> ai-task-obs:rum >>>
-    // ai-task-obs: auto-generated
-    // RUM 前端监控 - 从 /app/config.json 读取配置并加载 Aegis SDK
-    (function () {
-      fetch('/app/config.json')
-        .then(function (r) { return r.json(); })
-        .then(function (cfg) {
-          var rum = (cfg && cfg.rum) || {};
-          if (!rum.enabled || !rum.id) return;
-          var s = document.createElement('script');
-          s.crossOrigin = 'anonymous';
-          s.src = 'https://cdn.rumt-zh.com/1/aegis.min.js';
-          s.onload = function () {
-            // eslint-disable-next-line no-undef
-            new Aegis({
-              id: rum.id,
-              reportApiSpeed: true,
-              reportAssetSpeed: true,
-              spa: true,
-              env: rum.env || '',
-              version: rum.version || '',
-            });
-          };
-          document.head.appendChild(s);
-        })
-        .catch(function () {/* ignore */});
-    })();
-    // <<< ai-task-obs:rum <<< -->
+    <!-- >>> ai-task-obs:rum >>> -->
+    <script>
+      // ai-task-obs: auto-generated
+      // RUM 前端监控 - 从 /dash/assets/config.json 读取配置并加载 Aegis SDK
+      (function () {
+        fetch('/dash/assets/config.json')
+          .then(function (r) { return r.json(); })
+          .then(function (cfg) {
+            var rum = (cfg && cfg.rum) || {};
+            if (!rum.enabled || !rum.id) return;
+            var s = document.createElement('script');
+            s.crossOrigin = 'anonymous';
+            s.src = 'https://cdn.rumt-zh.com/1/aegis.min.js';
+            s.onload = function () {
+              // eslint-disable-next-line no-undef
+              new Aegis({
+                id: rum.id,
+                reportApiSpeed: true,
+                reportAssetSpeed: true,
+                spa: true,
+                env: rum.env || '',
+                version: rum.version || '',
+              });
+            };
+            document.head.appendChild(s);
+          })
+          .catch(function () { /* ignore */ });
+      })();
+    </script>
+    <!-- <<< ai-task-obs:rum <<< -->
   </head>
   <body>
     <div id="root"></div>
