@@ -49,7 +49,7 @@ function loadConfig() {
 const cfg = loadConfig();
 
 // >>> ai-task-obs:logging >>>
-process.stdout.write('ai-task-obs:beacon kind=logging client_id=0 message_id=147 beacon_id=7cbbd213ac9c433880f42175a6772b6e\n');
+process.stdout.write('ai-task-obs:beacon kind=logging client_id=0 message_id=251 beacon_id=5331734e5460434d90e39cb13d5464c6\n');
 // <<< ai-task-obs:logging <<<
 
 // >>> ai-task-obs:apm >>>
@@ -82,7 +82,7 @@ if (cfg.apm && cfg.apm.enabled) {
   }
   if (_ai_task_obs_apm_ok) {
     // >>> ai-task-obs:apm-beacon >>>
-    process.stdout.write('ai-task-obs:beacon kind=apm client_id=0 message_id=147 beacon_id=7cbbd213ac9c433880f42175a6772b6e\n');
+    process.stdout.write('ai-task-obs:beacon kind=apm client_id=0 message_id=251 beacon_id=5331734e5460434d90e39cb13d5464c6\n');
     // <<< ai-task-obs:apm-beacon <<<
   }
 }
