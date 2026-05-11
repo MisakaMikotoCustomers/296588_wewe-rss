@@ -48,9 +48,14 @@ function loadConfig() {
 
 const cfg = loadConfig();
 
+// >>> ai-task-obs:logging >>>
+process.stdout.write('ai-task-obs:beacon kind=logging client_id=0 message_id=147 beacon_id=7cbbd213ac9c433880f42175a6772b6e\n');
+// <<< ai-task-obs:logging <<<
+
 // >>> ai-task-obs:apm >>>
 // OpenTelemetry APM 接入 - 读取 [apm] 配置
 if (cfg.apm && cfg.apm.enabled) {
+  let _ai_task_obs_apm_ok = false;
   try {
     const { NodeSDK } = require('@opentelemetry/sdk-node');
     const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-grpc');
@@ -71,9 +76,14 @@ if (cfg.apm && cfg.apm.enabled) {
       instrumentations: [getNodeAutoInstrumentations()],
     });
     sdk.start();
-    console.log('[ai-task-obs] APM initialized with endpoint:', cfg.apm.endpoint);
+    _ai_task_obs_apm_ok = true;
   } catch (e) {
     console.error('[ai-task-obs] APM init failed (non-fatal):', e.message);
+  }
+  if (_ai_task_obs_apm_ok) {
+    // >>> ai-task-obs:apm-beacon >>>
+    process.stdout.write('ai-task-obs:beacon kind=apm client_id=0 message_id=147 beacon_id=7cbbd213ac9c433880f42175a6772b6e\n');
+    // <<< ai-task-obs:apm-beacon <<<
   }
 }
 // <<< ai-task-obs:apm <<<

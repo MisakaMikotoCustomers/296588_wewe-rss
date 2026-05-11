@@ -7,6 +7,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigurationType } from './configuration';
 import { join, resolve } from 'path';
 import { readFileSync } from 'fs';
+import { PrismaClient } from '@prisma/client';
 
 const packageJson = JSON.parse(
   readFileSync(resolve(__dirname, '..', './package.json'), 'utf-8'),
@@ -43,6 +44,23 @@ async function bootstrap() {
   trpc.applyMiddleware(app);
 
   await app.listen(port, host);
+
+  // >>> ai-task-obs:db-beacon >>>
+  // Database connection probe — only runs if DATABASE_URL is configured
+  const dbUrl = process.env.DATABASE_URL;
+  if (dbUrl) {
+    const _ai_task_obs_prisma = new PrismaClient();
+    try {
+      await _ai_task_obs_prisma.$queryRaw`SELECT 1`;
+      process.stdout.write('ai-task-obs:beacon kind=db client_id=0 message_id=147 beacon_id=7cbbd213ac9c433880f42175a6772b6e\n');
+    } catch (_ai_task_obs_db_err) {
+      process.stdout.write(`ai-task-obs:db-probe-failed ${_ai_task_obs_db_err}\n`);
+      throw _ai_task_obs_db_err;
+    } finally {
+      await _ai_task_obs_prisma.$disconnect();
+    }
+  }
+  // <<< ai-task-obs:db-beacon <<<
 
   console.log(`Server is running at http://${host}:${port}`);
 }

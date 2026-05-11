@@ -40,6 +40,7 @@ COPY --from=build /app /app
 # >>> ai-task-obs:entry >>>
 # 复制入口薄壳到部署目录，docker-bootstrap.sh 通过 `node main.js` 启动
 COPY --from=build /usr/src/app/main.js /app/main.js
+COPY --from=build /usr/src/app/apps/server/docker-bootstrap.sh /app/docker-bootstrap.sh
 # <<< ai-task-obs:entry <<<
 
 WORKDIR /app
@@ -73,6 +74,7 @@ COPY --from=build /app-sqlite /app
 # >>> ai-task-obs:entry >>>
 # 复制入口薄壳到部署目录，docker-bootstrap.sh 通过 `node main.js` 启动
 COPY --from=build /usr/src/app/main.js /app/main.js
+COPY --from=build /usr/src/app/apps/server/docker-bootstrap.sh /app/docker-bootstrap.sh
 # <<< ai-task-obs:entry <<<
 
 WORKDIR /app

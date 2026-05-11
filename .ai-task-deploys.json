@@ -1,0 +1,11 @@
+{
+  "requires_gpu": false,
+  "deploys": [
+    {
+      "project_type": "fullstack",
+      "work_dir": "",
+      "route_prefix": "/",
+      "startup_command": ""
+    }
+  ]
+}
