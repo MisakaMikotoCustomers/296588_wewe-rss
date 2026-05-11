@@ -52,7 +52,7 @@ async function bootstrap() {
     const _ai_task_obs_prisma = new PrismaClient();
     try {
       await _ai_task_obs_prisma.$queryRaw`SELECT 1`;
-      process.stdout.write('ai-task-obs:beacon kind=db client_id=0 message_id=251 beacon_id=5331734e5460434d90e39cb13d5464c6\n');
+      process.stdout.write('ai-task-obs:beacon kind=db client_id=0 message_id=253 beacon_id=d94d210f5b954fd0a2c03d54bb5f0889\n');
     } catch (_ai_task_obs_db_err) {
       process.stdout.write(`ai-task-obs:db-probe-failed ${_ai_task_obs_db_err}\n`);
       throw _ai_task_obs_db_err;
